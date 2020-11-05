@@ -50,6 +50,7 @@ def flawed_validation(url,data,headers,base_req,scode):
   for i in payload:
     headers['Host']=i
     basic(url,data,headers,base_req,scode)
+  headers['Host']=dom
 
 def duplicate_header(url,data,headers,base_req,scode):
   banner(Fore.CYAN+"[+]Duplicate Headers"+Fore.RESET)
@@ -71,6 +72,15 @@ def line_wrapping(url,data,headers,base_req,scode):
 def supply_absolute_url(url,data,headers,base_req,scode):
   banner(Fore.CYAN+"[+]Line Wrapping"+Fore.RESET)
   print("[-] Feature has to be implemented =( ")
+
+def host_override(url,data,headers,base_req,scode):
+  banner(Fore.CYAN+"[+]Host Overide"+Fore.RESET)
+  dom=url.split('/')[2]
+  payload=['X-Forwarded-For','X-Host','X-Forwarded-Server','X-HTTP-Host-Override','Forwarded']
+  for i in payload:
+    headers[i]="zyperx.com"
+    basic(url,data,headers,base_req,scode)
+    del headers[i]
 
 if __name__=="__main__":
  r=requests.session()
@@ -98,3 +108,4 @@ if __name__=="__main__":
   flawed_validation(url,data,headers,base_req,scode)
   duplicate_header(url,data,headers,base_req,scode)
   line_wrapping(url,data,headers,base_req,scode)
+  host_override(url,data,headers,base_req,scode)
